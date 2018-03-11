@@ -1,5 +1,11 @@
 # Client
+This is an Angular 5 application.
 
+## Installation
+First, clone this repo and `cd` into the main directory.  Then:
+```shell
+npm install
+```
 
 ## Development
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. 
