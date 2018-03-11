@@ -1,0 +1,6 @@
+<div class="form-control-feedback">
+  <p *ngIf="control.errors?.required" class="error">{{ label }} is required.</p>
+  <p *ngIf="control.errors?.email" class="error">Invalid email address.</p>
+  <p *ngIf="control.errors?.phone" class="error">Invalid phone number.</p>
+  <p *ngIf="control.errors?.pattern" class="error">A valid {{ label }} is required.</p>
+</div>

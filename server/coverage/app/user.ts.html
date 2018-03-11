@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for app/user.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">All files</a> / <a href="index.html">app</a> user.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">95.45% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>21/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>3/3</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">88.89% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>8/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>15/15</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">66x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { db }  from './database';
+import PhoneNumber from 'awesome-phonenumber';
+&nbsp;
+export const add = (phone: string, firstName: string, lastName: string, email: string) =&gt; db
+  .prepare('INSERT INTO users VALUES (?, ?, ?, ?)')
+  .run(parsePhone(phone), firstName, lastName, email);
+&nbsp;
+export const addCheckin = (phone: string, date: string = new Date().toISOString()) =&gt; db
+  .prepare('INSERT INTO user_checkin VALUES (?, ?)')
+  .run(parsePhone(phone), date);
+&nbsp;
+export const getAll = () =&gt; db.prepare('SELECT * FROM users').all();
+&nbsp;
+export const get = (phone: string) =&gt; db.prepare('SELECT * FROM users WHERE phone=?').get(parsePhone(phone));
+&nbsp;
+export const getCheckinCount = (phone: string): number  =&gt; db.prepare('SELECT count(*) as checkins FROM user_checkin WHERE phone=?').get(parsePhone(phone)).checkins;
+&nbsp;
+export const remove = (phone: string) =&gt; {
+  db.prepare('DELETE FROM users WHERE phone=?').run(parsePhone(phone));
+  db.prepare('DELETE FROM user_checkin WHERE phone=?').run(parsePhone(phone));
+};
+&nbsp;
+export const isValidPhone = <span class="fstat-no" title="function not covered" >(p</span>hone: string): boolean =&gt; <span class="cstat-no" title="statement not covered" >new PhoneNumber(phone, 'US').isValid();</span>
+&nbsp;
+export const parsePhone = (phone: string): string =&gt; new PhoneNumber(phone, 'US').getNumber();
+&nbsp;
+export const calcualtePoints = (phone: string) =&gt; {
+  const count: number = getCheckinCount(phone);
+&nbsp;
+  return count
+    ? ((count - 1) * 20) + 50
+    : 0;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Mar 11 2018 04:20:49 GMT-0600 (MDT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

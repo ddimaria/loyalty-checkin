@@ -1,0 +1,46 @@
+<h1>Register</h1>
+
+<div class="container-columns">
+
+  <div class="container-content" *ngIf="!isLoading">
+
+    <h2>Complete the information below to register</h2>
+
+    <section>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <label for="firstName">First Name*</label>
+            <input type="text" class="form-control" formControlName="firstName" id="firstName">
+            <app-validation-message [control]="form.controls.firstName" label="First Name"></app-validation-message>
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="lastName">Last Name*</label>
+            <input type="text" class="form-control" formControlName="lastName" id="lastName">
+            <app-validation-message [control]="form.controls.lastName" label="Last Name"></app-validation-message>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <label for="phone">Phone*</label>
+            <input type="text" class="form-control" formControlName="phone" id="phone" [textMask]="{mask: phoneNumberMask}">
+            <app-validation-message [control]="form.controls.phone" label="Phone"></app-validation-message>
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="email">Email*</label>
+            <input type="email" class="form-control" formControlName="email" id="email">
+            <app-validation-message [control]="form.controls.email" label="Email"></app-validation-message>
+          </div>
+        </div>
+        <div class="cta">
+          <button type="submit" class="btn btn-primary btn-right">Register</button>
+        </div>
+      </form>
+    </section>
+
+  </div>
+
+  <div class="container-content" *ngIf="isLoading">
+    <div class="loader"></div>
+  </div>
+</div>

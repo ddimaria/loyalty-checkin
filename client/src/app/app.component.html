@@ -1,0 +1,27 @@
+<header>
+  <p>Loyalty Checkin Rewardinator</p>
+</header>
+
+<div class="wrapper">
+  <div class="box">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<footer>
+  <div class="copyright">
+    &copy; 2018 Nobody
+  </div>
+</footer>
+
+<ng-template #errorModalContent let-c="close">
+  <div class="modal-header">
+    <h4 class="modal-title">Error</h4>
+  </div>
+  <div class="modal-body danger">
+    <p *ngFor="let error of errors | async">{{ error }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="c('Close click')">Close</button>
+  </div>
+</ng-template>

@@ -1,0 +1,66 @@
+<h1>Welcome {{ data.firstName }}!</h1>
+
+
+<div class="container-wide" *ngIf="!isLoading">
+
+  <p class="error" *ngIf="data.data.error !== ''">{{ data.data.error }}</p>
+
+  <h2>Your Profile Information</h2>
+
+  <div class="row">
+    <div class="form-group col-lg-3 col-sm-6">
+      <h4>First Name</h4>
+    </div>
+    <div class="form-group col-lg-3 col-sm-6">
+      {{ data.data.firstName }}
+    </div>
+    <div class="form-group col-lg-3 col-sm-6">
+      <h4>Last Name</h4>
+    </div>
+    <div class="form-group col-lg-3 col-sm-6">
+      {{ data.data.lastName }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-lg-3 col-sm-6">
+      <h4>Phone Number</h4>
+    </div>
+    <div class="form-group col-lg-3 col-sm-6">
+      {{ data.data.phone }}
+    </div>
+    <div class="form-group col-lg-3 col-sm-6">
+      <h4>Email Address</h4>
+    </div>
+    <div class="form-group col-lg-3 col-sm-6">
+      {{ data.data.email }}
+    </div>
+  </div>
+
+  <h2>Your Points</h2>
+
+  <div class="row">
+    <div class="col-sm-12">
+      {{ data.data.points }}
+    </div>
+  </div>
+
+  <h2>Your Checkins ({{ data.data.checkins.length }})</h2>
+
+  <div class="checkins">
+    <div class="row" *ngFor="let checkin of data.data.checkins">
+      <div class="col-sm-12">
+        {{ formatDate(parseDate(checkin.date),  'MM/DD/YYYY HH:mm a') }}
+      </div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <button type="button" class="btn btn-primary btn-right" (click)="onSubmit()">Checkin Again!</button>
+  </div>
+  <br clear="all">
+</div>
+
+<div class="container-wide" *ngIf="isLoading">
+  <div class="loader"></div>
+</div>
+
