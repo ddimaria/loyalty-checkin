@@ -30,6 +30,18 @@ describe('routes: users', () => {
     });
   });
 
+  describe(`GET /healthcheck`, () => {
+    it('should healthcheck', done => {
+      chai
+        .request(server)
+        .get(`/healthcheck`)
+        .end((err, res) => {
+          isOk(err, res, 200, 'text/plain');
+          done();
+        });
+    });
+  });
+
   describe(`POST ${PATH}`, () => {
     remove(user.phone);
 

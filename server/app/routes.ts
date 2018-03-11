@@ -13,6 +13,14 @@ router.get('/', async ctx => {
 });
 
 /**
+ * Basic healthcheck
+ * @todo: return app version number
+ */
+router.get('/healthcheck', async ctx => {
+  ctx.body = 'OK';
+});
+
+/**
  * Get a user by their phone number
  */
 router.get('/api/v1/users/:phone', async ctx => {
@@ -38,8 +46,16 @@ router.post('/api/v1/users', async ctx => {
   }
 });
 
+/**
+ * Checkin a user if they haven't checked in with the last 5 mins.
+ * Send back some useful data about the user.
+ * 
+ * @param {object} user
+ * @param {string} phone
+ * @return {object}
+ */
 const checkin = (user: any, phone: string) => {
-  user.last = canCheckin(phone);
+  
   canCheckin(phone) === 0
     ? addCheckin(phone)
     : user.error = 'You cannot checkin within 5 minutes of the last checkin';
