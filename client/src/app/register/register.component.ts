@@ -29,7 +29,6 @@ export class RegisterComponent implements OnInit {
 
   protected formGroup: FormGroup;
   protected state = 'data';
-  protected subscriptions: Subscription[] = [];
 
   constructor(
     public validation: ValidationMessageComponent,
@@ -38,15 +37,21 @@ export class RegisterComponent implements OnInit {
     protected store: Store<any>
   ) {}
 
+  /**
+   * Bootstrap folm validators
+   */
   public ngOnInit() {
     this.form = this.fb.group({
-      firstName: ['David', Validators.required],
-      lastName: ['DiMaria', Validators.required],
-      email: ['david.dimaria@mapquest.com', Validators.compose([Validators.required, Validators.email])],
-      phone: ['3036383172', Validators.compose([Validators.required, LoginComponent.validatePhoneNumber])],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      phone: ['', Validators.compose([Validators.required, LoginComponent.validatePhoneNumber])],
     });
   }
 
+  /**
+   * Submit the registration form
+   */
   public onSubmit() {
     this.form.controls.phone.setValue(parse(this.form.controls.phone.value || '', 'US').phone);
 

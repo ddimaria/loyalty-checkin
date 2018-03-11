@@ -5,29 +5,26 @@ import { environment } from './../environments/environment';
 
 @Injectable()
 export class AppService {
-  private readonly apiUrl = environment.apiUrl;
+  private readonly apiUrl = (environment as any).apiUrl;
 
   constructor(private http: HttpClient) {}
 
-  public static getInitialState(): any {
-    return {
-      authenticated: false,
-      data: {
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        checkins: [],
-        points: 0,
-        error: '',
-      }
-    };
-  }
-
+  /**
+   * Login to the service
+   *
+   * @param {string} phone The phone number
+   * @return {Observable<any>}
+   */
   public login(phone: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/users/+1${phone}`);
   }
 
+  /**
+   * Register a user
+   *
+   * @param {object} data The data packet of user information
+   * @return {Observable<any>}
+   */
   public register(data: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/users/`, data);
   }

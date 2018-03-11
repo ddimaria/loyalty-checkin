@@ -34,6 +34,9 @@ export class ProfileComponent implements OnInit, OnDestroy {
     protected store: Store<any>
   ) {}
 
+  /**
+   * Subscribe to the store for user data
+   */
   ngOnInit() {
     this.subscriptions.push(
       this.store
@@ -42,10 +45,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Lifecycle hook, make sure to clean up subscriptions
+   */
   public ngOnDestroy() {
     this.safeUnsubscribe(this.subscriptions);
   }
 
+  /**
+   * Submit the registration form
+   */
   public onSubmit() {
     this.store.dispatch({ type: ACTIONS.NOT_LOGED_IN });
   }
@@ -59,6 +68,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
     subscriptions.forEach(subscription =>  subscription.unsubscribe());
   }
 
+  /**
+   * Handle date from the store
+   *
+   * @param {object} data
+   */
   private onDataLoad(data: any) {
     this.data = data;
     this.isLoading = false;

@@ -4,8 +4,21 @@ import { ACTIONS } from './app.actions';
 import { AppService } from './app.service';
 import { MemoizedSelector } from '@ngrx/store/src/selector';
 
-const initialState: any = AppService.getInitialState();
+// @todo create an interface for this state
+const initialState: any = {
+  authenticated: false,
+  data: {
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    checkins: [],
+    points: 0,
+    error: '',
+  }
+};
 
+// pure function
 export function appReducer(state: any = initialState, action: any) {
   switch (action.type) {
 
@@ -21,5 +34,6 @@ export function appReducer(state: any = initialState, action: any) {
   }
 }
 
+// selectors for accessing the store
 export const selectState = (state: any) => state;
 export const selectData: MemoizedSelector<any, any> = createSelector(selectState, (state: any) => state.data);

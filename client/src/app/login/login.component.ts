@@ -28,8 +28,6 @@ export class LoginComponent implements OnInit {
 
   protected formGroup: FormGroup;
   protected state = 'data';
-  protected subscriptions: Subscription[] = [];
-  private dataSubscription: ISubscription;
 
   public static validatePhoneNumber = (control: FormControl) => {
     try {
@@ -37,7 +35,7 @@ export class LoginComponent implements OnInit {
     } catch (e) {
       return { phone: true };
     }
-  };
+  }
 
   constructor(
     public validation: ValidationMessageComponent,
@@ -46,12 +44,18 @@ export class LoginComponent implements OnInit {
     protected store: Store<any>
   ) {}
 
+  /**
+   * Bootstrap folm validators
+   */
   public ngOnInit() {
     this.form = this.fb.group({
-      phone: ['3036383172', Validators.compose([Validators.required, LoginComponent.validatePhoneNumber])],
+      phone: ['', Validators.compose([Validators.required, LoginComponent.validatePhoneNumber])],
     });
   }
 
+  /**
+   * Submit the login form
+   */
   public onSubmit() {
     this.form.controls.phone.setValue(parse(this.form.controls.phone.value || '', 'US').phone);
 

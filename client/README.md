@@ -33,3 +33,14 @@ https://prettier.io/docs/en/editors.html
 ## Redux Dev Tools
 Install this tool to help with Redux Development
 http://extension.remotedev.io/
+
+## Design Decisions
+* Angular 5 has a comprehensive CLI for quickly bootstrapping a site.
+* I'm using ngrx/store and ngrx/effects to manage application state (it's Redux using Observables).
+
+## Thoughts on Improvements
+Since the job is mostly node, I gave this app a little less time & love.  If I had more time, I'd
+* Build out the unit and e2e tests (just defaults in there now).
+* Automate the build and deployment with Travis or Jenkins.
+* Add in more robust authentication.
+* Create a docker image to run the app in.

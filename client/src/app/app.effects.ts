@@ -5,16 +5,13 @@ import { Action } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/of';
 
 import { ACTIONS } from './app.actions';
 import { AppService } from './app.service';
-import { environment } from './../environments/environment';
 
 @Injectable()
 export class Effects {
