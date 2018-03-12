@@ -1,6 +1,6 @@
 import * as Koa from 'koa';
 
-interface ILog {
+export interface ILog {
   method: string;
   url: string;
   query: string;
@@ -11,6 +11,13 @@ interface ILog {
   statusCode: number;
 }
 
+/**
+ * Log to stdout
+ * 
+ * @param {Koa.Context} ctx
+ * @param {callback} next
+ * @todo make stdout an option for testing and production-level logging
+ */
 export async function logger(ctx: Koa.Context, next: () => Promise<any>) {
   const data: Partial<ILog> = {
     method: ctx.method,

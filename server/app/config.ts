@@ -11,7 +11,8 @@ export interface IConfig {
   };
 }
 
-const config: IConfig = {
+// @todo replace with configurable data, test data now
+export const config: IConfig = {
   port: parseInt(process.env.NODE_PORT, 10) || 3000,
   mail: {
     host: 'smtp.ethereal.email',
@@ -23,5 +24,3 @@ const config: IConfig = {
     }
   }
 };
-
-export { config };
