@@ -1,6 +1,7 @@
+import * as Koa from 'koa';
 import * as Router from 'koa-router';
 
-import { add, addCheckin, getCheckins, get, canCheckin, calcualtePoints } from './user';
+import { add, checkin, getCheckins, get, canCheckin, calcualtePoints } from './user';
 
 const router = new Router();
 
@@ -35,35 +36,41 @@ router.get('/api/v1/users/:phone', async ctx => {
  * Add a new user
  */
 router.post('/api/v1/users', async ctx => {
-  const body = ctx.request.body;
-  const user = get(body.phone);
+  
+  ctx.checkBody('sdaf', 'firstName is required').notEmpty();
+  ctx.checkBody('lastName', 'lastName is required').notEmpty();
+  ctx.checkBody('email', 'email is required').notEmpty();
+  ctx.checkBody('phone', 'phone is required').notEmpty();
+  
+  const errors = await validationErrors(ctx);
+  
+  if (!errors) {
+    const body = ctx.request.body;
+    const user = get(body.phone);
+    ctx.status = !user ? 200 : 422;
 
-  ctx.status = !user ? 200 : 422;
-
-  if (!user) {
-    add(body.phone, body.firstName, body.lastName, body.email);
-    ctx.body = checkin(get(body.phone), body.phone);
+    if (!user) {
+      add(body.phone, body.firstName, body.lastName, body.email);
+      ctx.body = checkin(get(body.phone), body.phone);
+    }
   }
 });
 
 /**
- * Checkin a user if they haven't checked in with the last 5 mins.
- * Send back some useful data about the user.
+ * Check for validations errors, report downstream if present.
  * 
- * @param {object} user
- * @param {string} phone
- * @return {object}
+ * @param {Koa.ctx} ctx
+ * @return {Promise<object>}
  */
-const checkin = (user: any, phone: string) => {
-  
-  canCheckin(phone) === 0
-    ? addCheckin(phone)
-    : user.error = 'You cannot checkin within 5 minutes of the last checkin';
+const validationErrors = async (ctx: Koa.Context) => {
+  let errors: any[] = await ctx.validationErrors();
 
-  const checkins = getCheckins(phone);
-  const points = calcualtePoints(phone);
+  if (errors) {
+    ctx.body = errors.map(error => error.msg);
+    ctx.status = 400;
+  }
 
-  return { ...user, checkins: checkins, points: points };
+  return errors;
 };
 
 export const routes = router.routes();

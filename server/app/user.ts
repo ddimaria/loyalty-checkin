@@ -67,6 +67,26 @@ export const canCheckin = (phone: string): number  => db
   .get(parsePhone(phone)).checked_in_recently;
 
 /**
+ * Checkin a user if they haven't checked in with the last 5 mins.
+ * Send back some useful data about the user.
+ * 
+ * @param {object} user
+ * @param {string} phone
+ * @return {object}
+ */
+export const checkin = (user: any, phone: string) => {
+  
+  canCheckin(phone) === 0
+    ? addCheckin(phone)
+    : user.error = 'You cannot checkin within 5 minutes of the last checkin';
+
+  const checkins = getCheckins(phone);
+  const points = calcualtePoints(phone);
+
+  return { ...user, checkins: checkins, points: points };
+};
+
+/**
  * Remove user data
  * 
  * @param {string} phone

@@ -1,6 +1,7 @@
 import * as Koa from 'koa';
 import * as koaBody from 'koa-body';
-const cors = require('@koa/cors');
+import * as cors from '@koa/cors';
+const koaValidator = require('koa-async-validator');
 
 import { config } from './config';
 import { createTables } from './database';
@@ -12,6 +13,7 @@ const app = new Koa();
 createTables();
 
 app.use(koaBody());
+app.use(koaValidator());
 app.use(cors());
 app.use(logger);
 app.use(routes);
