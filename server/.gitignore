@@ -1,3 +1,6 @@
 node_modules
 package-lock.json
 loyalty-checkin.db
+/.nyc_output
+/coverage
+/dist
