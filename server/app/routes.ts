@@ -37,7 +37,7 @@ router.get('/api/v1/users/:phone', async ctx => {
  */
 router.post('/api/v1/users', async ctx => {
   
-  ctx.checkBody('sdaf', 'firstName is required').notEmpty();
+  ctx.checkBody('firstName', 'firstName is required').notEmpty();
   ctx.checkBody('lastName', 'lastName is required').notEmpty();
   ctx.checkBody('email', 'email is required').notEmpty();
   ctx.checkBody('phone', 'phone is required').notEmpty();
@@ -67,7 +67,7 @@ const validationErrors = async (ctx: Koa.Context) => {
 
   if (errors) {
     ctx.body = errors.map(error => error.msg);
-    ctx.status = 400;
+    ctx.status = 422;
   }
 
   return errors;

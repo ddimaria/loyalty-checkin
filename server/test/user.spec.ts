@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { add, addCheckin, getCheckinCount, get, remove, parsePhone, calcualtePoints, isValidPhone } from './../app/user';
+import { add, addCheckin, sendEmail, getCheckinCount, get, remove, parsePhone, calcualtePoints, isValidPhone } from './../app/user';
 
 const user = {'email': 'david.p.dimaria@gmail.com', 'firstName': 'David', 'lastName': 'DiMaria', 'phone': '999-999-9999'};
 
@@ -48,6 +48,11 @@ describe('users', () => {
 
     const isValid = isValidPhone('1-303-867-5309');
     expect(isValid).to.be.true;
+    done();
+  });
+
+  it('should not error on sending an email', done => {
+    const send = sendEmail(user.email, 50);
     done();
   });
 

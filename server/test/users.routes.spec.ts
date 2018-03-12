@@ -61,6 +61,18 @@ describe('routes: users', () => {
       expect(count).to.eql(1);
       done();
     });
+
+    it('should error with incomplete information', done => {
+      const incomplete = { ...user, phone: '' };
+      chai
+        .request(server)
+        .post(`${PATH}`)
+        .send(incomplete)
+        .end((err, res) => {
+          res.status.should.eql(422);
+          done();
+        });
+    });
   });
 
   describe(`GET ${PATH}/${user.phone}`, () => {
