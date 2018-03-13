@@ -1,7 +1,7 @@
 import * as Koa from 'koa';
 import * as Router from 'koa-router';
 
-import { add, checkin, getCheckins, get, canCheckin, calcualtePoints } from './user';
+import { add, checkin, get } from './user';
 
 const router = new Router();
 
@@ -36,14 +36,14 @@ router.get('/api/v1/users/:phone', async ctx => {
  * Add a new user
  */
 router.post('/api/v1/users', async ctx => {
-  
+
   ctx.checkBody('firstName', 'firstName is required').notEmpty();
   ctx.checkBody('lastName', 'lastName is required').notEmpty();
   ctx.checkBody('email', 'email is required').notEmpty();
   ctx.checkBody('phone', 'phone is required').notEmpty();
-  
+
   const errors = await validationErrors(ctx);
-  
+
   if (!errors) {
     const body = ctx.request.body;
     const user = get(body.phone);
@@ -58,12 +58,12 @@ router.post('/api/v1/users', async ctx => {
 
 /**
  * Check for validations errors, report downstream if present.
- * 
+ *
  * @param {Koa.ctx} ctx
  * @return {Promise<object>}
  */
 const validationErrors = async (ctx: Koa.Context) => {
-  let errors: any[] = await ctx.validationErrors();
+  const errors: any[] = await ctx.validationErrors();
 
   if (errors) {
     ctx.body = errors.map(error => error.msg);

@@ -1,5 +1,8 @@
 import { expect } from 'chai';
-import { add, addCheckin, sendEmail, getCheckinCount, get, remove, parsePhone, calcualtePoints, isValidPhone } from './../app/user';
+import {
+  add, addCheckin, calcualtePoints, get, getCheckinCount,
+  isValidPhone, remove, parsePhone, sendEmail
+} from './../app/user';
 
 const user = {'email': 'david.p.dimaria@gmail.com', 'firstName': 'David', 'lastName': 'DiMaria', 'phone': '999-999-9999'};
 
@@ -52,7 +55,7 @@ describe('users', () => {
   });
 
   it('should not error on sending an email', done => {
-    const send = sendEmail(user.email, 50);
+    sendEmail(user.email, 50);
     done();
   });
 

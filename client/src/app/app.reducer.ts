@@ -1,11 +1,15 @@
 import { Action, createSelector } from '@ngrx/store';
-import { ACTIONS } from './app.actions';
-
-import { AppService } from './app.service';
 import { MemoizedSelector } from '@ngrx/store/src/selector';
 
-// @todo create an interface for this state
-const initialState: any = {
+import { ACTIONS } from './app.actions';
+import { AppService, IUser } from './app.service';
+
+export interface IAppState {
+  authenticated: boolean;
+  data: IUser & { error: string };
+}
+
+export const initialState: IAppState = {
   authenticated: false,
   data: {
     firstName: '',
@@ -35,5 +39,5 @@ export function appReducer(state: any = initialState, action: any) {
 }
 
 // selectors for accessing the store
-export const selectState = (state: any) => state;
-export const selectData: MemoizedSelector<any, any> = createSelector(selectState, (state: any) => state.data);
+export const selectState = (state: IAppState) => state;
+export const selectData: MemoizedSelector<any, any> = createSelector(selectState, (state: IAppState) => state.data);

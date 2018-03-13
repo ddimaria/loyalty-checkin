@@ -10,9 +10,11 @@ import { isValidNumber, format, parse } from 'libphonenumber-js';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { ACTIONS } from './../app.actions';
-import { selectState, selectData } from './../app.reducer';
+import { selectState, selectData, IAppState } from './../app.reducer';
 import { LoginComponent } from './../login/login.component';
 import { ValidationMessageComponent } from './../shared/components/validation-message/validation-message.component';
+import { phoneNumberMask } from './../shared/masks';
+import { validatePhoneNumber } from './../shared/validators';
 
 @Component({
   selector: 'app-register',
@@ -22,19 +24,18 @@ import { ValidationMessageComponent } from './../shared/components/validation-me
 })
 export class RegisterComponent implements OnInit {
 
-  public data: any;
+  public data: IAppState;
   public form: FormGroup;
-  public phoneNumberMask: any[] = ['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   public isLoading = false;
+  public phoneNumberMask = phoneNumberMask;
+  public validatePhoneNumber = validatePhoneNumber;
 
   protected formGroup: FormGroup;
-  protected state = 'data';
 
   constructor(
     public validation: ValidationMessageComponent,
     protected fb: FormBuilder,
-    protected router: Router,
-    protected store: Store<any>
+    protected store: Store<IAppState>
   ) {}
 
   /**
@@ -44,8 +45,8 @@ export class RegisterComponent implements OnInit {
     this.form = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      email: ['', Validators.compose([Validators.required, Validators.email])],
-      phone: ['', Validators.compose([Validators.required, LoginComponent.validatePhoneNumber])],
+      email: ['', Validators.email],
+      phone: ['', validatePhoneNumber],
     });
   }
 
@@ -65,5 +66,4 @@ export class RegisterComponent implements OnInit {
       this.store.dispatch({ type: ACTIONS.REGISTER, payload: payload });
     }
   }
-
 }

@@ -28,11 +28,12 @@ export class Effects {
     .mergeMap((action: any) =>
       this.appService
         .login(action.payload.phone)
-        .map(data => ({ type: ACTIONS.LOGIN_SUCCESS, payload: data }) )
+        .map(data => ({ type: ACTIONS.LOGIN_SUCCESS, payload: data }))
         .do((data: any) => this.router.navigate(['/profile']))
         .catch(error =>
-          Observable.of({ type: ACTIONS.NEEDS_TO_REGISTER, payload: { data: { phone: action.payload.phone }} }))
-        );
+          Observable.of({ type: ACTIONS.NEEDS_TO_REGISTER, payload: { data: { phone: action.payload.phone }} })
+        )
+      );
 
   // NOT_LOGED_IN
   @Effect({dispatch: false})
@@ -56,5 +57,7 @@ export class Effects {
         .map(data => ({ type: ACTIONS.REGISTER_SUCCESS, payload: data }) )
         .do((data: any) => this.router.navigate(['/profile']))
         .catch(error =>
-          Observable.of({ type: ACTIONS.NEEDS_TO_REGISTER, payload: { data: { phone: action.payload.phone }} })));
+          Observable.of({ type: ACTIONS.NEEDS_TO_REGISTER, payload: { data: { phone: action.payload.phone }}})
+        )
+      );
 }

@@ -12,7 +12,7 @@ import { conformToMask } from 'angular2-text-mask';
 import { format as formatDate, parse as parseDate } from 'date-fns';
 
 import { ACTIONS } from './../app.actions';
-import { selectState, selectData } from './../app.reducer';
+import { selectState, selectData, IAppState } from './../app.reducer';
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +21,7 @@ import { selectState, selectData } from './../app.reducer';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
-  public data: any;
+  public data: IAppState;
   public isLoading = true;
   public formatDate = formatDate;
   public parseDate = parseDate;
@@ -29,10 +29,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   protected state = 'data';
   protected subscriptions: Subscription[] = [];
 
-  constructor(
-    protected router: Router,
-    protected store: Store<any>
-  ) {}
+  constructor(protected store: Store<IAppState>) {}
 
   /**
    * Subscribe to the store for user data
@@ -73,7 +70,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
    *
    * @param {object} data
    */
-  private onDataLoad(data: any) {
+  private onDataLoad(data: IAppState) {
     this.data = data;
     this.isLoading = false;
 
@@ -81,5 +78,4 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.store.dispatch({ type: ACTIONS.NOT_LOGED_IN});
     }
   }
-
 }

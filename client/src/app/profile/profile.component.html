@@ -49,7 +49,7 @@
   <div class="checkins">
     <div class="row" *ngFor="let checkin of data.data.checkins">
       <div class="col-sm-12">
-        {{ formatDate(parseDate(checkin.date),  'MM/DD/YYYY HH:mm a') }}
+        {{ formatDate(parseDate(checkin.date),  'MM/DD/YYYY hh:mm a') }}
       </div>
     </div>
   </div>

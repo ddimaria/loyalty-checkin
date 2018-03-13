@@ -7,7 +7,7 @@ import { config } from './config';
 
 /**
  * Add a new user
- * 
+ *
  * @param {string} phone
  * @param {string} firstName
  * @param {string} lastName
@@ -19,7 +19,7 @@ export const add = (phone: string, firstName: string, lastName: string, email: s
 
 /**
  * Checkin a user
- * 
+ *
  * @param {string} phone
  * @param {string} data     Defaults to now
  */
@@ -28,11 +28,11 @@ export const addCheckin = (phone: string, date: string = new Date().toISOString(
   const user = get(phone);
   const points = calcualtePoints(phone);
   sendEmail(user.email, points);
-}
+};
 
 /**
  * Get a user record
- * 
+ *
  * @param {string} phone
  * @return {object}
  */
@@ -40,7 +40,7 @@ export const get = (phone: string) => db.prepare('SELECT * FROM users WHERE phon
 
 /**
  * Get all checkins for a user
- * 
+ *
  * @param {string} phone
  * @return {object[]}
  */
@@ -48,7 +48,7 @@ export const getCheckins = (phone: string) => db.prepare('SELECT * FROM user_che
 
 /**
  * Retrieve the total number of checkins for a user
- * 
+ *
  * @param {string} phone
  * @return {number}
  */
@@ -58,7 +58,7 @@ export const getCheckinCount = (phone: string): number  => db
 
 /**
  * Determin if a user can checkin
- * 
+ *
  * @param {string} phone
  * @return {number}
  */
@@ -69,13 +69,13 @@ export const canCheckin = (phone: string): number  => db
 /**
  * Checkin a user if they haven't checked in with the last 5 mins.
  * Send back some useful data about the user.
- * 
+ *
  * @param {object} user
  * @param {string} phone
  * @return {object}
  */
 export const checkin = (user: any, phone: string) => {
-  
+
   canCheckin(phone) === 0
     ? addCheckin(phone)
     : user.error = 'You cannot checkin within 5 minutes of the last checkin';
@@ -88,7 +88,7 @@ export const checkin = (user: any, phone: string) => {
 
 /**
  * Remove user data
- * 
+ *
  * @param {string} phone
  * @return {number}
  */
@@ -99,7 +99,7 @@ export const remove = (phone: string) => {
 
 /**
  * Determine if a phone number is valid
- * 
+ *
  * @param {string} phone
  * @return {boolean}
  */
@@ -107,7 +107,7 @@ export const isValidPhone = (phone: string): boolean => new PhoneNumber(phone, '
 
 /**
  * Parse a phone number into US format
- * 
+ *
  * @param {string} phone
  * @return {string} The parsed phone number
  */
@@ -115,7 +115,7 @@ export const parsePhone = (phone: string): string => new PhoneNumber(phone, 'US'
 
 /**
  * Determine the number of points a user has earned
- * 
+ *
  * @param {string} phone
  * @return {number} The points total
  */
@@ -129,7 +129,8 @@ export const calcualtePoints = (phone: string) => {
 
 /**
  * Parse a phone number into US format
- * 
+ * Preview emails links will appear in the server console
+ *
  * @param {string} email
  * @param {number} points
  * @return {string} The parsed phone number
@@ -153,8 +154,6 @@ export const sendEmail = (email: string, points: number) => {
 
       console.log('Message sent: %s', info.messageId);
       console.log('Preview URL: %s', getTestMessageUrl(info));
-      // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-      // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
     });
 });
 };

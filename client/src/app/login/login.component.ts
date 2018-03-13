@@ -10,8 +10,10 @@ import { isValidNumber, format, parse } from 'libphonenumber-js';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { ACTIONS } from './../app.actions';
-import { selectState, selectData } from './../app.reducer';
+import { selectState, selectData, IAppState } from './../app.reducer';
 import { ValidationMessageComponent } from './../shared/components/validation-message/validation-message.component';
+import { phoneNumberMask } from './../shared/masks';
+import { validatePhoneNumber } from './../shared/validators';
 
 @Component({
   selector: 'app-login',
@@ -21,27 +23,18 @@ import { ValidationMessageComponent } from './../shared/components/validation-me
 })
 export class LoginComponent implements OnInit {
 
-  public data: any;
+  public data: IAppState;
   public form: FormGroup;
-  public phoneNumberMask: any[] = ['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   public isLoading = false;
+  public phoneNumberMask = phoneNumberMask;
+  public validatePhoneNumber = validatePhoneNumber;
 
   protected formGroup: FormGroup;
-  protected state = 'data';
-
-  public static validatePhoneNumber = (control: FormControl) => {
-    try {
-      return isValidNumber(parse(control.value, 'US')) ? null : { phone: true };
-    } catch (e) {
-      return { phone: true };
-    }
-  }
 
   constructor(
     public validation: ValidationMessageComponent,
     protected fb: FormBuilder,
-    protected router: Router,
-    protected store: Store<any>
+    protected store: Store<IAppState>
   ) {}
 
   /**
@@ -49,7 +42,7 @@ export class LoginComponent implements OnInit {
    */
   public ngOnInit() {
     this.form = this.fb.group({
-      phone: ['', Validators.compose([Validators.required, LoginComponent.validatePhoneNumber])],
+      phone: ['', validatePhoneNumber],
     });
   }
 
@@ -69,5 +62,4 @@ export class LoginComponent implements OnInit {
       this.store.dispatch({ type: ACTIONS.LOGIN, payload: payload });
     }
   }
-
 }

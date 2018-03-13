@@ -13,7 +13,7 @@ export interface ILog {
 
 /**
  * Log to stdout
- * 
+ *
  * @param {Koa.Context} ctx
  * @param {callback} next
  * @todo make stdout an option for testing and production-level logging
